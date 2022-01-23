@@ -1,3 +1,3 @@
-testvar := "asd";
+testvar := concatenate("asd", "qwe");
 print(length(testvar));
 c := testvar

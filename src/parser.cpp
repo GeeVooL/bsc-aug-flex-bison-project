@@ -41,12 +41,15 @@
 #include <string>
 #include <cmath>
 
+#include "operations.h"
 #include "scanner.h"
 #include "symbol_table.h"
 
+using Operations = gvl::lang::Operations;
+
 gvl::lang::SymbolTable table;
 
-#line 50 "parser.cpp"
+#line 53 "parser.cpp"
 
 
 
@@ -146,7 +149,7 @@ gvl::lang::SymbolTable table;
 
 #line 8 ".././src/grammar.y"
 namespace gvl { namespace lang {
-#line 150 "parser.cpp"
+#line 153 "parser.cpp"
 
   /// Build a parser object.
   Parser::Parser (yyscan_t scanner_yyarg)
@@ -178,12 +181,27 @@ namespace gvl { namespace lang {
   {
     switch (this->kind ())
     {
+      case symbol_kind::S_bool_expr: // bool_expr
+      case symbol_kind::S_t_bool_expr: // t_bool_expr
+      case symbol_kind::S_f_bool_expr: // f_bool_expr
+        value.copy< bool > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_num_rel: // num_rel
+      case symbol_kind::S_str_rel: // str_rel
+        value.copy< gvl::lang::Operations > (YY_MOVE (that.value));
+        break;
+
       case symbol_kind::S_NUM: // NUM
+      case symbol_kind::S_num_expr: // num_expr
+      case symbol_kind::S_t_num_expr: // t_num_expr
+      case symbol_kind::S_f_num_expr: // f_num_expr
         value.copy< std::int32_t > (YY_MOVE (that.value));
         break;
 
       case symbol_kind::S_STRING: // STRING
       case symbol_kind::S_IDENT: // IDENT
+      case symbol_kind::S_str_expr: // str_expr
         value.copy< std::string > (YY_MOVE (that.value));
         break;
 
@@ -218,12 +236,27 @@ namespace gvl { namespace lang {
     super_type::move (s);
     switch (this->kind ())
     {
+      case symbol_kind::S_bool_expr: // bool_expr
+      case symbol_kind::S_t_bool_expr: // t_bool_expr
+      case symbol_kind::S_f_bool_expr: // f_bool_expr
+        value.move< bool > (YY_MOVE (s.value));
+        break;
+
+      case symbol_kind::S_num_rel: // num_rel
+      case symbol_kind::S_str_rel: // str_rel
+        value.move< gvl::lang::Operations > (YY_MOVE (s.value));
+        break;
+
       case symbol_kind::S_NUM: // NUM
+      case symbol_kind::S_num_expr: // num_expr
+      case symbol_kind::S_t_num_expr: // t_num_expr
+      case symbol_kind::S_f_num_expr: // f_num_expr
         value.move< std::int32_t > (YY_MOVE (s.value));
         break;
 
       case symbol_kind::S_STRING: // STRING
       case symbol_kind::S_IDENT: // IDENT
+      case symbol_kind::S_str_expr: // str_expr
         value.move< std::string > (YY_MOVE (s.value));
         break;
 
@@ -328,12 +361,27 @@ namespace gvl { namespace lang {
   {
     switch (that.kind ())
     {
+      case symbol_kind::S_bool_expr: // bool_expr
+      case symbol_kind::S_t_bool_expr: // t_bool_expr
+      case symbol_kind::S_f_bool_expr: // f_bool_expr
+        value.YY_MOVE_OR_COPY< bool > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_num_rel: // num_rel
+      case symbol_kind::S_str_rel: // str_rel
+        value.YY_MOVE_OR_COPY< gvl::lang::Operations > (YY_MOVE (that.value));
+        break;
+
       case symbol_kind::S_NUM: // NUM
+      case symbol_kind::S_num_expr: // num_expr
+      case symbol_kind::S_t_num_expr: // t_num_expr
+      case symbol_kind::S_f_num_expr: // f_num_expr
         value.YY_MOVE_OR_COPY< std::int32_t > (YY_MOVE (that.value));
         break;
 
       case symbol_kind::S_STRING: // STRING
       case symbol_kind::S_IDENT: // IDENT
+      case symbol_kind::S_str_expr: // str_expr
         value.YY_MOVE_OR_COPY< std::string > (YY_MOVE (that.value));
         break;
 
@@ -352,12 +400,27 @@ namespace gvl { namespace lang {
   {
     switch (that.kind ())
     {
+      case symbol_kind::S_bool_expr: // bool_expr
+      case symbol_kind::S_t_bool_expr: // t_bool_expr
+      case symbol_kind::S_f_bool_expr: // f_bool_expr
+        value.move< bool > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_num_rel: // num_rel
+      case symbol_kind::S_str_rel: // str_rel
+        value.move< gvl::lang::Operations > (YY_MOVE (that.value));
+        break;
+
       case symbol_kind::S_NUM: // NUM
+      case symbol_kind::S_num_expr: // num_expr
+      case symbol_kind::S_t_num_expr: // t_num_expr
+      case symbol_kind::S_f_num_expr: // f_num_expr
         value.move< std::int32_t > (YY_MOVE (that.value));
         break;
 
       case symbol_kind::S_STRING: // STRING
       case symbol_kind::S_IDENT: // IDENT
+      case symbol_kind::S_str_expr: // str_expr
         value.move< std::string > (YY_MOVE (that.value));
         break;
 
@@ -376,12 +439,27 @@ namespace gvl { namespace lang {
     state = that.state;
     switch (that.kind ())
     {
+      case symbol_kind::S_bool_expr: // bool_expr
+      case symbol_kind::S_t_bool_expr: // t_bool_expr
+      case symbol_kind::S_f_bool_expr: // f_bool_expr
+        value.copy< bool > (that.value);
+        break;
+
+      case symbol_kind::S_num_rel: // num_rel
+      case symbol_kind::S_str_rel: // str_rel
+        value.copy< gvl::lang::Operations > (that.value);
+        break;
+
       case symbol_kind::S_NUM: // NUM
+      case symbol_kind::S_num_expr: // num_expr
+      case symbol_kind::S_t_num_expr: // t_num_expr
+      case symbol_kind::S_f_num_expr: // f_num_expr
         value.copy< std::int32_t > (that.value);
         break;
 
       case symbol_kind::S_STRING: // STRING
       case symbol_kind::S_IDENT: // IDENT
+      case symbol_kind::S_str_expr: // str_expr
         value.copy< std::string > (that.value);
         break;
 
@@ -399,12 +477,27 @@ namespace gvl { namespace lang {
     state = that.state;
     switch (that.kind ())
     {
+      case symbol_kind::S_bool_expr: // bool_expr
+      case symbol_kind::S_t_bool_expr: // t_bool_expr
+      case symbol_kind::S_f_bool_expr: // f_bool_expr
+        value.move< bool > (that.value);
+        break;
+
+      case symbol_kind::S_num_rel: // num_rel
+      case symbol_kind::S_str_rel: // str_rel
+        value.move< gvl::lang::Operations > (that.value);
+        break;
+
       case symbol_kind::S_NUM: // NUM
+      case symbol_kind::S_num_expr: // num_expr
+      case symbol_kind::S_t_num_expr: // t_num_expr
+      case symbol_kind::S_f_num_expr: // f_num_expr
         value.move< std::int32_t > (that.value);
         break;
 
       case symbol_kind::S_STRING: // STRING
       case symbol_kind::S_IDENT: // IDENT
+      case symbol_kind::S_str_expr: // str_expr
         value.move< std::string > (that.value);
         break;
 
@@ -666,12 +759,27 @@ namespace gvl { namespace lang {
          when using variants.  */
       switch (yyr1_[yyn])
     {
+      case symbol_kind::S_bool_expr: // bool_expr
+      case symbol_kind::S_t_bool_expr: // t_bool_expr
+      case symbol_kind::S_f_bool_expr: // f_bool_expr
+        yylhs.value.emplace< bool > ();
+        break;
+
+      case symbol_kind::S_num_rel: // num_rel
+      case symbol_kind::S_str_rel: // str_rel
+        yylhs.value.emplace< gvl::lang::Operations > ();
+        break;
+
       case symbol_kind::S_NUM: // NUM
+      case symbol_kind::S_num_expr: // num_expr
+      case symbol_kind::S_t_num_expr: // t_num_expr
+      case symbol_kind::S_f_num_expr: // f_num_expr
         yylhs.value.emplace< std::int32_t > ();
         break;
 
       case symbol_kind::S_STRING: // STRING
       case symbol_kind::S_IDENT: // IDENT
+      case symbol_kind::S_str_expr: // str_expr
         yylhs.value.emplace< std::string > ();
         break;
 
@@ -695,24 +803,380 @@ namespace gvl { namespace lang {
         {
           switch (yyn)
             {
-  case 10: // f_num_expr: IDENT
+  case 2: // num_expr: num_expr PLUS t_num_expr
 #line 89 ".././src/grammar.y"
-                        {
-                    table.LookupInteger(yystack_[0].value.as < std::string > (), {yystack_[0].location.begin.line, yystack_[0].location.begin.column});
+                                           {
+                    yylhs.value.as < std::int32_t > () = yystack_[2].value.as < std::int32_t > () + yystack_[0].value.as < std::int32_t > ();
                 }
-#line 704 "parser.cpp"
+#line 812 "parser.cpp"
+    break;
+
+  case 3: // num_expr: num_expr MINUS t_num_expr
+#line 92 ".././src/grammar.y"
+                                            {
+                    yylhs.value.as < std::int32_t > () = yystack_[2].value.as < std::int32_t > () - yystack_[0].value.as < std::int32_t > ();
+                }
+#line 820 "parser.cpp"
+    break;
+
+  case 4: // num_expr: t_num_expr
+#line 95 ".././src/grammar.y"
+                             {
+                    yylhs.value.as < std::int32_t > () = yystack_[0].value.as < std::int32_t > ();
+                }
+#line 828 "parser.cpp"
+    break;
+
+  case 5: // t_num_expr: t_num_expr MUL f_num_expr
+#line 100 ".././src/grammar.y"
+                                            {
+                    yylhs.value.as < std::int32_t > () = yystack_[2].value.as < std::int32_t > () * yystack_[0].value.as < std::int32_t > ();
+                }
+#line 836 "parser.cpp"
+    break;
+
+  case 6: // t_num_expr: t_num_expr DIV f_num_expr
+#line 103 ".././src/grammar.y"
+                                            {
+                    yylhs.value.as < std::int32_t > () = yystack_[2].value.as < std::int32_t > () / yystack_[0].value.as < std::int32_t > ();
+                }
+#line 844 "parser.cpp"
+    break;
+
+  case 7: // t_num_expr: t_num_expr MOD f_num_expr
+#line 106 ".././src/grammar.y"
+                                            {
+                    yylhs.value.as < std::int32_t > () = yystack_[2].value.as < std::int32_t > () % yystack_[0].value.as < std::int32_t > ();
+                }
+#line 852 "parser.cpp"
+    break;
+
+  case 8: // t_num_expr: f_num_expr
+#line 109 ".././src/grammar.y"
+                             {
+                    yylhs.value.as < std::int32_t > () = yystack_[0].value.as < std::int32_t > ();
+                }
+#line 860 "parser.cpp"
+    break;
+
+  case 9: // f_num_expr: NUM
+#line 114 ".././src/grammar.y"
+                      {
+                    yylhs.value.as < std::int32_t > () = yystack_[0].value.as < std::int32_t > ();
+                }
+#line 868 "parser.cpp"
+    break;
+
+  case 10: // f_num_expr: IDENT
+#line 117 ".././src/grammar.y"
+                        {
+                    yylhs.value.as < std::int32_t > () = table.LookupInteger(yystack_[0].value.as < std::string > (), {yystack_[0].location.begin.line, yystack_[0].location.begin.column});
+                }
+#line 876 "parser.cpp"
+    break;
+
+  case 11: // f_num_expr: READINT
+#line 120 ".././src/grammar.y"
+                          {
+                    std::int32_t input;
+                    std::cout << "Enter integer: ";
+                    std::cin >> input;
+                    std::cout << std::endl;
+                    yylhs.value.as < std::int32_t > () = input;
+                }
+#line 888 "parser.cpp"
+    break;
+
+  case 12: // f_num_expr: MINUS num_expr
+#line 127 ".././src/grammar.y"
+                                 {
+                    yylhs.value.as < std::int32_t > () = -yystack_[0].value.as < std::int32_t > ();
+                }
+#line 896 "parser.cpp"
+    break;
+
+  case 13: // f_num_expr: LPAREN num_expr RPAREN
+#line 130 ".././src/grammar.y"
+                                         {
+                    yylhs.value.as < std::int32_t > () = (yystack_[1].value.as < std::int32_t > ());
+                }
+#line 904 "parser.cpp"
+    break;
+
+  case 14: // f_num_expr: LENGTH LPAREN str_expr RPAREN
+#line 133 ".././src/grammar.y"
+                                                {
+                    std::string str = yystack_[1].value.as < std::string > ();
+                    yylhs.value.as < std::int32_t > () = str.length();
+                }
+#line 913 "parser.cpp"
+    break;
+
+  case 15: // f_num_expr: POSITION LPAREN str_expr COMMA str_expr RPAREN
+#line 137 ".././src/grammar.y"
+                                                                 {
+                    std::int32_t pos = yystack_[3].value.as < std::string > ().find(yystack_[1].value.as < std::string > ());
+                    return pos != std::string::npos ? pos : 0;
+                }
+#line 922 "parser.cpp"
+    break;
+
+  case 16: // str_expr: STRING
+#line 144 ".././src/grammar.y"
+                         {
+                    yylhs.value.as < std::string > () = yystack_[0].value.as < std::string > ();
+                }
+#line 930 "parser.cpp"
     break;
 
   case 17: // str_expr: IDENT
-#line 101 ".././src/grammar.y"
+#line 147 ".././src/grammar.y"
                         {
-                    table.LookupString(yystack_[0].value.as < std::string > (), {yystack_[0].location.begin.line, yystack_[0].location.begin.column});
+                    yylhs.value.as < std::string > () = table.LookupString(yystack_[0].value.as < std::string > (), {yystack_[0].location.begin.line, yystack_[0].location.begin.column});
                 }
-#line 712 "parser.cpp"
+#line 938 "parser.cpp"
+    break;
+
+  case 18: // str_expr: READSTR
+#line 150 ".././src/grammar.y"
+                          {
+                    std::string input;
+                    std::cout << "Enter integer: ";
+                    std::cin >> input;
+                    std::cout << std::endl;
+                    yylhs.value.as < std::string > () = input;
+                }
+#line 950 "parser.cpp"
+    break;
+
+  case 19: // str_expr: CONCATENATE LPAREN str_expr COMMA str_expr RPAREN
+#line 157 ".././src/grammar.y"
+                                                                    {
+                    yylhs.value.as < std::string > () = yystack_[3].value.as < std::string > () + yystack_[1].value.as < std::string > ();
+                }
+#line 958 "parser.cpp"
+    break;
+
+  case 20: // str_expr: SUBSTRING LPAREN str_expr COMMA num_expr COMMA num_expr RPAREN
+#line 160 ".././src/grammar.y"
+                                                                                 {
+                    yylhs.value.as < std::string > () = yystack_[5].value.as < std::string > ().substr(yystack_[3].value.as < std::int32_t > (), yystack_[1].value.as < std::int32_t > ());
+                }
+#line 966 "parser.cpp"
+    break;
+
+  case 21: // num_rel: EQ
+#line 166 ".././src/grammar.y"
+                     {
+                    yylhs.value.as < gvl::lang::Operations > () = Operations::kEq;
+                }
+#line 974 "parser.cpp"
+    break;
+
+  case 22: // num_rel: LT
+#line 169 ".././src/grammar.y"
+                     {
+                    yylhs.value.as < gvl::lang::Operations > () = Operations::kLt;
+                }
+#line 982 "parser.cpp"
+    break;
+
+  case 23: // num_rel: LE
+#line 172 ".././src/grammar.y"
+                     {
+                    yylhs.value.as < gvl::lang::Operations > () = Operations::kLe;
+                }
+#line 990 "parser.cpp"
+    break;
+
+  case 24: // num_rel: GT
+#line 175 ".././src/grammar.y"
+                     {
+                    yylhs.value.as < gvl::lang::Operations > () = Operations::kGt;
+                }
+#line 998 "parser.cpp"
+    break;
+
+  case 25: // num_rel: GE
+#line 178 ".././src/grammar.y"
+                     {
+                    yylhs.value.as < gvl::lang::Operations > () = Operations::kGe;
+                }
+#line 1006 "parser.cpp"
+    break;
+
+  case 26: // num_rel: NE
+#line 181 ".././src/grammar.y"
+                     {
+                    yylhs.value.as < gvl::lang::Operations > () = Operations::kNe;
+                }
+#line 1014 "parser.cpp"
+    break;
+
+  case 27: // str_rel: STR_EQ
+#line 186 ".././src/grammar.y"
+                         {
+                    yylhs.value.as < gvl::lang::Operations > () = Operations::kEq;
+                }
+#line 1022 "parser.cpp"
+    break;
+
+  case 28: // str_rel: STR_NE
+#line 189 ".././src/grammar.y"
+                         {
+                    yylhs.value.as < gvl::lang::Operations > () = Operations::kNe;
+                }
+#line 1030 "parser.cpp"
+    break;
+
+  case 29: // bool_expr: bool_expr OR t_bool_expr
+#line 194 ".././src/grammar.y"
+                                           {
+                    yylhs.value.as < bool > () = yystack_[2].value.as < bool > () || yystack_[0].value.as < bool > ();
+                }
+#line 1038 "parser.cpp"
+    break;
+
+  case 30: // bool_expr: t_bool_expr
+#line 197 ".././src/grammar.y"
+                              {
+                    yylhs.value.as < bool > () = yystack_[0].value.as < bool > ();
+                }
+#line 1046 "parser.cpp"
+    break;
+
+  case 31: // t_bool_expr: t_bool_expr AND f_bool_expr
+#line 202 ".././src/grammar.y"
+                                              {
+                    yylhs.value.as < bool > () = yystack_[2].value.as < bool > () && yystack_[0].value.as < bool > ();
+                }
+#line 1054 "parser.cpp"
+    break;
+
+  case 32: // t_bool_expr: f_bool_expr
+#line 205 ".././src/grammar.y"
+                              {
+                    yylhs.value.as < bool > () = yystack_[0].value.as < bool > ();
+                }
+#line 1062 "parser.cpp"
+    break;
+
+  case 33: // f_bool_expr: BOOL_TRUE
+#line 210 ".././src/grammar.y"
+                            {
+                    yylhs.value.as < bool > () = true;
+                }
+#line 1070 "parser.cpp"
+    break;
+
+  case 34: // f_bool_expr: BOOL_FALSE
+#line 213 ".././src/grammar.y"
+                             {
+                    yylhs.value.as < bool > () = false;
+                }
+#line 1078 "parser.cpp"
+    break;
+
+  case 35: // f_bool_expr: LPAREN bool_expr RPAREN
+#line 216 ".././src/grammar.y"
+                                          {
+                    yylhs.value.as < bool > () = (yystack_[1].value.as < bool > ());
+                }
+#line 1086 "parser.cpp"
+    break;
+
+  case 36: // f_bool_expr: NOT bool_expr
+#line 219 ".././src/grammar.y"
+                                {
+                    yylhs.value.as < bool > () = !yystack_[0].value.as < bool > ();
+                }
+#line 1094 "parser.cpp"
+    break;
+
+  case 37: // f_bool_expr: num_expr num_rel num_expr
+#line 222 ".././src/grammar.y"
+                                            {
+                    bool result;
+                    switch(yystack_[1].value.as < gvl::lang::Operations > ()) {
+                        case Operations::kEq:
+                            result = (yystack_[2].value.as < std::int32_t > () == yystack_[0].value.as < std::int32_t > ());
+                            break;
+                        case Operations::kLt:
+                            result = (yystack_[2].value.as < std::int32_t > () < yystack_[0].value.as < std::int32_t > ());
+                            break;
+                        case Operations::kLe:
+                            result = (yystack_[2].value.as < std::int32_t > () <= yystack_[0].value.as < std::int32_t > ());
+                            break;
+                        case Operations::kGt:
+                            result = (yystack_[2].value.as < std::int32_t > () > yystack_[0].value.as < std::int32_t > ());
+                            break;
+                        case Operations::kGe:
+                            result = (yystack_[2].value.as < std::int32_t > () >= yystack_[0].value.as < std::int32_t > ());
+                            break;
+                        case Operations::kNe:
+                            result = (yystack_[2].value.as < std::int32_t > () != yystack_[0].value.as < std::int32_t > ());
+                            break;
+                        default:
+                            break;
+                    }
+                    yylhs.value.as < bool > () = result;
+                }
+#line 1125 "parser.cpp"
+    break;
+
+  case 38: // f_bool_expr: str_expr str_rel str_expr
+#line 248 ".././src/grammar.y"
+                                            {
+                    bool result;
+                    switch(yystack_[1].value.as < gvl::lang::Operations > ()) {
+                        case Operations::kStrEq:
+                            result = (yystack_[2].value.as < std::string > () == yystack_[0].value.as < std::string > ());
+                            break;
+                        case Operations::kStrNe:
+                            result = (yystack_[2].value.as < std::string > () != yystack_[0].value.as < std::string > ());
+                            break;
+                        default:
+                            break;
+                    }
+                    yylhs.value.as < bool > () = result;
+                }
+#line 1144 "parser.cpp"
+    break;
+
+  case 49: // assign_stat: IDENT ASSIGN num_expr
+#line 281 ".././src/grammar.y"
+                                        {
+                    table.AssignInteger(yystack_[2].value.as < std::string > (), {yystack_[2].location.begin.line, yystack_[2].location.begin.column}, yystack_[0].value.as < std::int32_t > ());
+                }
+#line 1152 "parser.cpp"
+    break;
+
+  case 50: // assign_stat: IDENT ASSIGN str_expr
+#line 284 ".././src/grammar.y"
+                                        {
+                    table.AssignString(yystack_[2].value.as < std::string > (), {yystack_[2].location.begin.line, yystack_[2].location.begin.column}, yystack_[0].value.as < std::string > ());
+                }
+#line 1160 "parser.cpp"
+    break;
+
+  case 55: // output_stat: PRINT LPAREN num_expr RPAREN
+#line 303 ".././src/grammar.y"
+                                               {
+                    std::cout << yystack_[1].value.as < std::int32_t > () << std::endl;
+                }
+#line 1168 "parser.cpp"
+    break;
+
+  case 56: // output_stat: PRINT LPAREN str_expr RPAREN
+#line 306 ".././src/grammar.y"
+                                               {
+                    std::cout << yystack_[1].value.as < std::string > () << std::endl;
+                }
+#line 1176 "parser.cpp"
     break;
 
 
-#line 716 "parser.cpp"
+#line 1180 "parser.cpp"
 
             default:
               break;
@@ -1058,15 +1522,15 @@ namespace gvl { namespace lang {
 
 
 #if YYDEBUG
-  const unsigned char
+  const short
   Parser::yyrline_[] =
   {
-       0,    77,    77,    78,    79,    82,    83,    84,    85,    88,
-      89,    92,    93,    94,    95,    96,   100,   101,   104,   105,
-     106,   110,   111,   112,   113,   114,   115,   118,   119,   122,
-     123,   126,   127,   130,   131,   132,   133,   134,   135,   139,
-     140,   141,   142,   143,   144,   145,   149,   150,   151,   155,
-     156,   160,   161,   165,   169,   173,   174,   178
+       0,    89,    89,    92,    95,   100,   103,   106,   109,   114,
+     117,   120,   127,   130,   133,   137,   144,   147,   150,   157,
+     160,   166,   169,   172,   175,   178,   181,   186,   189,   194,
+     197,   202,   205,   210,   213,   216,   219,   222,   248,   265,
+     266,   267,   268,   269,   270,   271,   275,   276,   277,   281,
+     284,   290,   291,   295,   299,   303,   306,   312
   };
 
   void
@@ -1149,9 +1613,9 @@ namespace gvl { namespace lang {
 
 #line 8 ".././src/grammar.y"
 } } // gvl::lang
-#line 1153 "parser.cpp"
+#line 1617 "parser.cpp"
 
-#line 180 ".././src/grammar.y"
+#line 314 ".././src/grammar.y"
 
  
 void gvl::lang::Parser::error(const location_type& loc, const std::string& msg) {

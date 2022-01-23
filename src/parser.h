@@ -44,6 +44,12 @@
 
 #ifndef YY_YY_PARSER_H_INCLUDED
 # define YY_YY_PARSER_H_INCLUDED
+// "%code requires" blocks.
+#line 32 ".././src/grammar.y"
+
+#include "operations.h"
+
+#line 53 "parser.h"
 
 
 # include <cstdlib> // std::abort
@@ -179,7 +185,7 @@
 
 #line 8 ".././src/grammar.y"
 namespace gvl { namespace lang {
-#line 183 "parser.h"
+#line 189 "parser.h"
 
 
 
@@ -375,12 +381,25 @@ namespace gvl { namespace lang {
     /// An auxiliary type to compute the largest semantic type.
     union union_type
     {
+      // bool_expr
+      // t_bool_expr
+      // f_bool_expr
+      char dummy1[sizeof (bool)];
+
+      // num_rel
+      // str_rel
+      char dummy2[sizeof (gvl::lang::Operations)];
+
       // NUM
-      char dummy1[sizeof (std::int32_t)];
+      // num_expr
+      // t_num_expr
+      // f_num_expr
+      char dummy3[sizeof (std::int32_t)];
 
       // STRING
       // IDENT
-      char dummy2[sizeof (std::string)];
+      // str_expr
+      char dummy4[sizeof (std::string)];
     };
 
     /// The size of the largest semantic type.
@@ -589,12 +608,27 @@ namespace gvl { namespace lang {
       {
         switch (this->kind ())
     {
+      case symbol_kind::S_bool_expr: // bool_expr
+      case symbol_kind::S_t_bool_expr: // t_bool_expr
+      case symbol_kind::S_f_bool_expr: // f_bool_expr
+        value.move< bool > (std::move (that.value));
+        break;
+
+      case symbol_kind::S_num_rel: // num_rel
+      case symbol_kind::S_str_rel: // str_rel
+        value.move< gvl::lang::Operations > (std::move (that.value));
+        break;
+
       case symbol_kind::S_NUM: // NUM
+      case symbol_kind::S_num_expr: // num_expr
+      case symbol_kind::S_t_num_expr: // t_num_expr
+      case symbol_kind::S_f_num_expr: // f_num_expr
         value.move< std::int32_t > (std::move (that.value));
         break;
 
       case symbol_kind::S_STRING: // STRING
       case symbol_kind::S_IDENT: // IDENT
+      case symbol_kind::S_str_expr: // str_expr
         value.move< std::string > (std::move (that.value));
         break;
 
@@ -617,6 +651,34 @@ namespace gvl { namespace lang {
 #else
       basic_symbol (typename Base::kind_type t, const location_type& l)
         : Base (t)
+        , location (l)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, bool&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const bool& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, gvl::lang::Operations&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const gvl::lang::Operations& v, const location_type& l)
+        : Base (t)
+        , value (v)
         , location (l)
       {}
 #endif
@@ -673,12 +735,27 @@ namespace gvl { namespace lang {
         // Value type destructor.
 switch (yykind)
     {
+      case symbol_kind::S_bool_expr: // bool_expr
+      case symbol_kind::S_t_bool_expr: // t_bool_expr
+      case symbol_kind::S_f_bool_expr: // f_bool_expr
+        value.template destroy< bool > ();
+        break;
+
+      case symbol_kind::S_num_rel: // num_rel
+      case symbol_kind::S_str_rel: // str_rel
+        value.template destroy< gvl::lang::Operations > ();
+        break;
+
       case symbol_kind::S_NUM: // NUM
+      case symbol_kind::S_num_expr: // num_expr
+      case symbol_kind::S_t_num_expr: // t_num_expr
+      case symbol_kind::S_f_num_expr: // f_num_expr
         value.template destroy< std::int32_t > ();
         break;
 
       case symbol_kind::S_STRING: // STRING
       case symbol_kind::S_IDENT: // IDENT
+      case symbol_kind::S_str_expr: // str_expr
         value.template destroy< std::string > ();
         break;
 
@@ -1600,7 +1677,7 @@ switch (yykind)
 
 #if YYDEBUG
     // YYRLINE[YYN] -- Source line where rule number YYN was defined.
-    static const unsigned char yyrline_[];
+    static const short yyrline_[];
     /// Report on the debug stream that the rule \a r is going to be reduced.
     virtual void yy_reduce_print_ (int r) const;
     /// Print the state stack on the debug stream.
@@ -1841,17 +1918,17 @@ switch (yykind)
 
 #line 8 ".././src/grammar.y"
 } } // gvl::lang
-#line 1845 "parser.h"
+#line 1922 "parser.h"
 
 
 // "%code provides" blocks.
-#line 23 ".././src/grammar.y"
+#line 26 ".././src/grammar.y"
 
 #define YY_DECL \
     int yylex(gvl::lang::Parser::semantic_type *yylval, gvl::lang::Parser::location_type* yylloc, yyscan_t yyscanner)
 YY_DECL;
 
-#line 1855 "parser.h"
+#line 1932 "parser.h"
 
 
 #endif // !YY_YY_PARSER_H_INCLUDED
