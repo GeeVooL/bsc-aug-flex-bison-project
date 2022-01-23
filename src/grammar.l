@@ -1,18 +1,18 @@
-%option reentrant interactive noyywrap outfile="scanner.cpp" header="scanner.hpp"
+%option reentrant interactive noyywrap yylineno outfile="scanner.cpp" header="scanner.h"
 
 %{
 #include <cstdlib>
 #include <iostream>
 
-#include "parser.hpp"
+#include "parser.h"
 
-using Parser = lang::Parser;
+using Parser = gvl::lang::Parser;
 %}
 
 NUM         -?[0-9]+
 STRING      \"([^\\\"]|\\.)*\"
 IDENT       [A-Za-z][A-Za-z0-9]*
-WS          [\t ]+
+WS          [ \t\n]+
 
 %%
 
@@ -58,16 +58,15 @@ false       { return Parser::token::BOOL_FALSE; }
 {NUM}       { return Parser::token::NUM; }
 {STRING}    { return Parser::token::STRING; }
 {IDENT}     { return Parser::token::IDENT; }
-{WS}        /* Ignore whitespace */
-.           { std::cerr << "Unexpected input: " << yytext << std::endl; exit(1); }
+{WS}        { /* Ignore whitespace */ }
+.           { std::cerr << "[" << yylineno << "] Unexpected input: " << yytext << std::endl; exit(1); }
 
 %%
  
 int main() {
     yyscan_t scanner;
     yylex_init(&scanner);
-    lang::Parser parser{ scanner };
-    std::cout.precision(10);
+    gvl::lang::Parser parser{scanner};
     parser.parse();
     yylex_destroy(scanner);
 }

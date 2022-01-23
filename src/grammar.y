@@ -1,25 +1,26 @@
-%{
+%require "3.7"
+%language "C++"
+%locations
+%defines "parser.h"
+%output "parser.cpp"
+
+%define api.parser.class {Parser}
+%define api.namespace {gvl::lang}
+%define api.value.type variant
+%param {yyscan_t scanner}
+
+%code top {
 #include <iostream>
 #include <string>
 #include <cmath>
 
-#include "scanner.hpp"
-%}
- 
-%require "3.7"
-%language "C++"
-%defines "parser.hpp"
-%output "parser.cpp"
- 
-%define api.parser.class {Parser}
-%define api.namespace {lang}
-%define api.value.type variant
-%param {yyscan_t scanner}
+#include "scanner.h"
+}
  
 %code provides {
-    #define YY_DECL \
-        int yylex(lang::Parser::semantic_type *yylval, yyscan_t yyscanner)
-    YY_DECL;
+#define YY_DECL \
+    int yylex(gvl::lang::Parser::semantic_type *yylval, gvl::lang::Parser::location_type* yylloc, yyscan_t yyscanner)
+YY_DECL;
 }
 
 %token NUM
@@ -171,6 +172,6 @@ program         : instr
                 ;
 %%
  
-void lang::Parser::error(const std::string& msg) {
-    std::cerr << msg << '\n';
+void gvl::lang::Parser::error(const location_type& loc, const std::string& msg) {
+    std::cerr << "[" << loc.begin.line << "] Error: " << msg << std::endl;
 }

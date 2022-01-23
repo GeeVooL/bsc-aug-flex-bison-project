@@ -7,9 +7,9 @@ BIN_DIR := ./bin
 
 PROG := ${BIN_DIR}/lang
 SRC := $(wildcard $(SRC_DIR)/*.cpp)
-FLEX_OUT := ${BUILD_DIR}/scanner.cpp ${BUILD_DIR}/scanner.hpp
+FLEX_OUT := ${BUILD_DIR}/scanner.cpp ${BUILD_DIR}/scanner.h
 FLEX_SRC := ${SRC_DIR}/grammar.l
-BISON_OUT := ${BUILD_DIR}/parser.cpp ${BUILD_DIR}/parser.hpp
+BISON_OUT := ${BUILD_DIR}/parser.cpp ${BUILD_DIR}/parser.h
 BISON_SRC := ${SRC_DIR}/grammar.y
 
 all: ${PROG}
