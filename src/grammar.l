@@ -1,18 +1,32 @@
 %option reentrant interactive noyywrap yylineno outfile="scanner.cpp" header="scanner.h"
 
 %{
-#include <cstdlib>
 #include <iostream>
+#include <string>
 
 #include "parser.h"
 
 using Parser = gvl::lang::Parser;
+
+#define YY_USER_ACTION \
+    yylloc->begin.line = yylloc->end.line; \
+    yylloc->begin.column = yylloc->end.column; \
+    for(int i = 0; yytext[i] != '\0'; i++) { \
+        if(yytext[i] == '\n') { \
+            yylloc->end.line++; \
+            yylloc->end.column = 1; \
+        } \
+        else { \
+            yylloc->end.column++; \
+        } \
+    }
 %}
 
 NUM         -?[0-9]+
 STRING      \"([^\\\"]|\\.)*\"
 IDENT       [A-Za-z][A-Za-z0-9]*
-WS          [ \t\n]+
+WS          [ \t]+
+NL          \n
 
 %%
 
@@ -55,10 +69,21 @@ false       { return Parser::token::BOOL_FALSE; }
 "!="        { return Parser::token::STR_NE; }
 ";"         { return Parser::token::SEMICOLON; }
 ","         { return Parser::token::COMMA; }
-{NUM}       { return Parser::token::NUM; }
-{STRING}    { return Parser::token::STRING; }
-{IDENT}     { return Parser::token::IDENT; }
+{NUM}       {
+                yylval->emplace<std::int32_t>(std::stol(yytext));
+                return Parser::token::NUM;
+            }
+{STRING}    {
+                std::string str = yytext;
+                yylval->emplace<std::string>(str.substr(1, str.size() - 2));
+                return Parser::token::STRING;
+            }
+{IDENT}     {
+                yylval->emplace<std::string>(std::string(yytext));
+                return Parser::token::IDENT;
+            }
 {WS}        { /* Ignore whitespace */ }
+{NL}        { /* Let flex increment yylineno */ }
 .           { std::cerr << "[" << yylineno << "] Unexpected input: " << yytext << std::endl; exit(1); }
 
 %%

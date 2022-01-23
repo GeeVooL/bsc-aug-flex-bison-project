@@ -15,6 +15,9 @@
 #include <cmath>
 
 #include "scanner.h"
+#include "symbol_table.h"
+
+gvl::lang::SymbolTable table;
 }
  
 %code provides {
@@ -23,9 +26,9 @@
 YY_DECL;
 }
 
-%token NUM
-%token STRING
-%token IDENT
+%token <std::int32_t> NUM
+%token <std::string> STRING
+%token <std::string> IDENT
 %token AND
 %token OR
 %token NOT
@@ -83,7 +86,9 @@ t_num_expr      : t_num_expr MUL f_num_expr
                 ;
 
 f_num_expr      : NUM
-                | IDENT
+                | IDENT {
+                    table.LookupInteger($1, {@1.begin.line, @1.begin.column});
+                }
                 | READINT
                 | MINUS num_expr
                 | LPAREN num_expr RPAREN
@@ -93,7 +98,9 @@ f_num_expr      : NUM
 
 /* Wyrażenie, którego wartością jest łańcuch */
 str_expr        : STRING
-                | IDENT
+                | IDENT {
+                    table.LookupString($1, {@1.begin.line, @1.begin.column});
+                }
                 | READSTR
                 | CONCATENATE LPAREN str_expr COMMA str_expr RPAREN
                 | SUBSTRING LPAREN str_expr COMMA num_expr COMMA num_expr RPAREN

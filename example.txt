@@ -1,0 +1,3 @@
+testvar := "asd";
+print(length(testvar));
+c := testvar
